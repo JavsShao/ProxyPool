@@ -58,45 +58,45 @@ class RedisClient(object):
             print('代理', proxy, '当前分数', score, '移除')
             return self.db.zrem(REDIS_KEY, proxy)
 
-        def exists(self, proxy):
-            """
-            判断是否存在
-            :param proxy: 代理
-            :return: 是否存在
-            """
-            return not self.db.zscore(REDIS_KEY, proxy) == None
+    def exists(self, proxy):
+        """
+        判断是否存在
+        :param proxy: 代理
+        :return: 是否存在
+        """
+        return not self.db.zscore(REDIS_KEY, proxy) == None
 
-        def max(self, proxy):
-            """
-            将代理设置为MAX_SCORE
-            :param proxy: 代理
-            :return: 设置结果
-            """
-            print('代理', proxy, '可用，设置为', MAX_SCORE)
-            return self.db.zadd(REDIS_KEY, MAX_SCORE, proxy)
+    def max(self, proxy):
+        """
+        将代理设置为MAX_SCORE
+        :param proxy: 代理
+        :return: 设置结果
+        """
+        print('代理', proxy, '可用，设置为', MAX_SCORE)
+        return self.db.zadd(REDIS_KEY, MAX_SCORE, proxy)
 
-        def count(self):
-            """
-            获取数量
-            :return: 数量
-            """
-            return self.db.zcard(REDIS_KEY)
+    def count(self):
+        """
+        获取数量
+        :return: 数量
+        """
+        return self.db.zcard(REDIS_KEY)
 
-        def all(self):
-            """
-            获取全部代理
-            :return: 全部代理列表
-            """
-            return self.db.zrangebyscore(REDIS_KEY, MIN_SCORE, MAX_SCORE)
+    def all(self):
+        """
+        获取全部代理
+        :return: 全部代理列表
+        """
+        return self.db.zrangebyscore(REDIS_KEY, MIN_SCORE, MAX_SCORE)
 
-        def batch(self, start, stop):
-            """
-            批量获取
-            :param start: 开始索引
-            :param stop: 结束索引
-            :return: 代理列表
-            """
-            return self.db.zrevrange(REDIS_KEY, start, stop - 1)
+    def batch(self, start, stop):
+        """
+        批量获取
+        :param start: 开始索引
+        :param stop: 结束索引
+        :return: 代理列表
+        """
+        return self.db.zrevrange(REDIS_KEY, start, stop - 1)
 
 if __name__ == '__main__':
     conn = RedisClient()
